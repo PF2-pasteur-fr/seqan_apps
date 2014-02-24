@@ -1,0 +1,3 @@
+ngsroi-package          NGS Regions of Interest Analysis
+readROI                 Read ROI file.
+writeROI                Write ROI file.

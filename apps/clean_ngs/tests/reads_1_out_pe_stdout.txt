@@ -1,0 +1,44 @@
+>>Parameters
+#Name	value
+Version	0.6
+adaptors file:	adapters.txt
+mode:	paired-end
+input left:	reads_1.fq
+input right:	reads_2.fq
+output left:	reads_1_out_pe.fq
+output right:	reads_2_out_pe.fq
+rejected left:	reads_1_out_pe_rej.fq
+rejected right:	reads_2_out_pe_rej.fq
+minLen:	0
+maxLen:	0
+Quality threshold 3 prime:	0
+Quality threshold 5 prime:	0
+>>END_MODULE
+>>Statistics
+#Measure	value
+time	0.00401826
+good reads	6
+bad reads	0
+trimmed 3 prime	0
+trimmed 5 prime	0
+removed due to length	0
+removed due to max length	0
+>>END_MODULE
+>>sequence length distribution
+#seq length	count
+76	1
+93	1
+100	4
+>>END_MODULE
+>>adapter sequences
+#adapter ID	count
+V1	1
+V3	1
+V1Rev	0
+V3Rev	0
+TruSeq_Adapter_IndexN	1
+TruSeq_Adapter_IndexNRevComp	0
+>>END_MODULE
+>>leader sequences
+#adapter ID	count
+>>END_MODULE

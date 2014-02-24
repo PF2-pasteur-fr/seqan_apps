@@ -1,0 +1,36 @@
+Clean NGS -- TODO
+=================
+
+ * By default, print user-friendly output to stderr.  Add an option with the
+   log files for Bernd's statistics scripts.
+
+ * Document adapter file definition in text section. See:
+   http://trac.seqan.de/wiki/Tutorial/ParsingCommandLineArguments
+
+ * Create more comprehensive list of tests.  Should include adapters
+   at the end and in the middle of the read, quality based trimming on
+   each side.
+
+ * Tests with paired end data are important and should be added.
+
+ * Adaptor placement with paired end reads.
+
+ * Windows/Unix
+
+ * Ns are allowed in the adapter sequence.
+
+ * Possibly add option to annotate read id/meta data line with
+   information about leader sequence or adapter.  E.g. (I recommend 1):
+
+   (1) char buffer[1000];
+       snprintf(buffer, 999, " foo bar %d %d", 1, 2);
+       append(record.id1, buffer);
+
+   (2) std::stringstream ss;
+       ss << " foo bar " << 1 << " " << 2;
+       append(record.id1, ss.str());
+       // ss.str(""); ss.clear();
+
+ * Benchmark against old version.
+
+ * Test in KNIME.

@@ -1,0 +1,212 @@
+\nonstopmode{}
+\documentclass[a4paper]{book}
+\usepackage[times,inconsolata,hyper]{Rd}
+\usepackage{makeidx}
+\usepackage[utf8,latin1]{inputenc}
+% \usepackage{graphicx} % @USE GRAPHICX@
+\makeindex{}
+\begin{document}
+\chapter*{}
+\begin{center}
+{\textbf{\huge Package `ngsroi'}}
+\par\bigskip{\large \today}
+\end{center}
+\begin{description}
+\raggedright{}
+\item[Type]\AsIs{Package}
+\item[Title]\AsIs{NGS Regions of Interest Analysis}
+\item[Version]\AsIs{1.0}
+\item[Date]\AsIs{2013-04-12}
+\item[Maintainer]\AsIs{Manuel Holtgrewe }\email{manuel.holtgrewe@fu-berlin.de}\AsIs{}
+\item[Description]\AsIs{Routines for I/O of NGS ROI files and manipulation thereof.}
+\item[License]\AsIs{BSD + file LICENSE}
+\item[URL]\AsIs{}\url{http://www.seqan.de/projects/ngs\_roi}\AsIs{}
+\item[Author]\AsIs{Bernd Jagla Developer [aut, cre, cph],
+Manuel Holtgrewe Developer [ctb]}
+\end{description}
+\Rdcontents{\R{} topics documented:}
+\inputencoding{utf8}
+\HeaderA{ngsroi-package}{NGS Regions of Interest Analysis}{ngsroi.Rdash.package}
+\aliasA{ngsroi}{ngsroi-package}{ngsroi}
+\keyword{package}{ngsroi-package}
+%
+\begin{Description}\relax
+Routines for I/O of NGS ROI files and manipulation thereof.
+\end{Description}
+%
+\begin{Details}\relax
+
+\Tabular{ll}{
+Package: & ngsroi\\{}
+Type: & Package\\{}
+Version: & 0.1\\{}
+Date: & 2013-04-12\\{}
+License: & BSD\_3\_clause\\{}
+}
+\end{Details}
+%
+\begin{Author}\relax
+Bernd Jagla <bernd.jagla@pasteur.fr>\\{}
+Manuel Holtgrewe <manuel.holtgrewe@fu-berlin.de>
+
+Maintainer: Manuel Holtgrewe <manuel.holtgrewe@fu-berlin.de>
+\end{Author}
+%
+\begin{References}\relax
+Jagla, B, Holtgrewe, M, Reinert, K: NGS ROI. To appear.
+\end{References}
+%
+\begin{Examples}
+\begin{ExampleCode}
+library(ngsroi)
+
+# Load ROI file into data.frame.
+#roi = readROI("dmel.bowtie.sam.roi")
+
+# Compute some metrics.
+#roi$min = as.numeric(lapply(roi$counts ,min))
+#roi$median =  as.numeric(lapply(roi$counts ,median))
+#roi$mean =  as.numeric(lapply(roi$counts ,mean))
+#roi$quantile75 =  as.numeric(lapply(roi$counts ,quantile, probs=0.75))
+#roi$quantile95 =  as.numeric(lapply(roi$counts ,quantile, probs=0.95))
+
+# Write data.frame into ROI file again.
+#writeROI(roi, "dmel.bowtie.sam.trans.roi");
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{readROI}{Read ROI file.}{readROI}
+\keyword{\textbackslash{}textasciitilde{}kwd1}{readROI}
+\keyword{\textbackslash{}textasciitilde{}kwd2}{readROI}
+%
+\begin{Description}\relax
+Read ROI file into data.frame.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+readROI(file.name)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{file.name}] 
+The path to the ROI file to read.
+
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+The function returns a data.frame with the data from the ROI file.
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+##---- Should be DIRECTLY executable !! ----
+##-- ==>  Define data, use random,
+##--	or do  help(data=index)  for the standard data sets.
+
+## The function is currently defined as
+function (fpname) 
+{
+    fi <- function(x, i) {
+        x[i]
+    }
+    fni <- function(x, i) {
+        as.numeric(x[[i]])
+    }
+    getVec <- function(x) {
+        mylen = as.numeric(x[5])
+        veclen = length(x)
+        as.numeric(unlist(strsplit(x[veclen], ",")))
+    }
+    getVals <- function(y, x, columnNames) {
+        veclen = length(columnNames)
+        t1 = veclen - 1
+        for (colN in c(7:t1)) {
+            y[, columnNames[colN]] = unlist(lapply(x, fni, colN))
+        }
+        return(y)
+    }
+    con = gzfile(fpname)
+    rLines = readLines(con)
+    close(con)
+    values = rLines[substr(rLines, 1, 1) != "#"]
+    values = strsplit(values, "\t")
+    if (length(rLines[substr(rLines, 1, 2) == "##"]) == 0) {
+        columnNames = unlist(list("##ref", "begin_pos", "end_pos", 
+            "region_name", "length", "strand", "max_count", "cg_content", 
+            "counts"))
+    }
+    else {
+        columnNames = unlist(strsplit(rLines[substr(rLines, 1, 
+            2) == "##"], "\t"))
+    }
+    df = data.frame(ref = unlist(lapply(values, fi, 1)), begin_pos = as.integer(unlist(lapply(values, 
+        fni, 2))), end_pos = as.integer(unlist(lapply(values, 
+        fni, 3))), region_name = unlist(lapply(values, fi, 4)), 
+        length = as.integer(unlist(lapply(values, fni, 5))), 
+        strand = unlist(lapply(values, fi, 6)))
+    df = getVals(df, values, columnNames)
+    df$counts = lapply(values, getVec)
+    df$counts = lapply(df$counts, unlist)
+    roiNames = names(df)
+    return(df)
+  }
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{writeROI}{Write ROI file.}{writeROI}
+\keyword{\textbackslash{}textasciitilde{}kwd1}{writeROI}
+\keyword{\textbackslash{}textasciitilde{}kwd2}{writeROI}
+%
+\begin{Description}\relax
+Write data.frame to a ROI file.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+writeROI(roi, file.name)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{roi}] 
+The data.frame to write to file.
+
+\item[\code{file.name}] 
+The path to the file to write to.
+
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Examples}
+\begin{ExampleCode}
+##---- Should be DIRECTLY executable !! ----
+##-- ==>  Define data, use random,
+##--	or do  help(data=index)  for the standard data sets.
+
+## The function is currently defined as
+function (roi, fpname) 
+{
+    fpConn <- file(fpname, "w")
+    colCount = 1
+    write("# ROI written from R", fpConn, append = F)
+    colNames = names(roi)
+    colNames = colNames[!colNames == "counts"]
+    outStr = ""
+    outStr = paste(c(outStr, "##", colNames[1]), collapse = "")
+    for (colIds in c(2:length(colNames))) {
+        outStr = paste(c(outStr, colNames[colIds]), collapse = "\t")
+    }
+    outStr = paste(c(outStr, "counts"), collapse = "\t")
+    write(outStr, file = fpConn, append = TRUE)
+    apply(roi, 1, writeRoiLine, fpConn)
+    close(fpConn)
+  }
+\end{ExampleCode}
+\end{Examples}
+\printindex{}
+\end{document}

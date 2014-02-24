@@ -1,0 +1,390 @@
+\section{ROI summary selected}
+
+<<roiSelected_selection, eval=TRUE, echo=FALSE>>=
+# with at least one peak
+selected=roiDF[roiDF$peakiness>0,]
+
+# regions with maxCount > 5
+selected=selected[selected$max_Count>5,]
+
+# length > 51
+selected=selected[selected$length>51,]
+@
+
+
+
+\begin{figure}[h]
+\begin{center}
+<<roiCorrPlotsiPairsSel, eval=TRUE, dev="png", out.width='.99\\linewidth', echo=FALSE, warning=FALSE, dpi=1000, cache=TRUE>>=
+opts_chunk[['set']](fig.width = 7)
+opts_chunk[['set']](fig.height = 7)
+library(IDPmisc)
+ipairs(selected[,c(2,3,5,7,8,9,10,11,12,13,14,16,17,18)],pixs=0.1, ztransf = function(x){x[x<1] <- 1; log2(x)})
+@
+\end{center}
+\caption{ROI corellation plots (iPairs)}
+\label{ROIcorrPlotsiPairsSel}
+\end{figure}
+
+
+
+\begin{figure}[h]
+\begin{center}
+<<roiCorrPlotsPairsSel, eval=TRUE, dev="png", out.width='.99\\linewidth', echo=FALSE, warning=FALSE, dpi=1000, cache=TRUE >>=
+opts_chunk[['set']](fig.width = 7)
+opts_chunk[['set']](fig.height = 7)
+pairs(selected[,c(2,3,5,7,8,9,10,11,12,13,14,16,17,18)], lower.panel=panel.smooth, upper.panel=panel.cor)
+@
+\end{center}
+\caption{ROI corellation plots (pairs)}
+\label{ROIcorrPlotsPairsSel}
+\end{figure}
+
+
+
+\begin{figure}[h]
+\begin{center}
+<<roiFeaturesSpotSel, eval=TRUE, dev="png", out.width='.99\\linewidth', echo=FALSE, warning=FALSE, dpi=1000>>=
+require(IDPmisc)
+#selected=readROI(roi.fp)
+maxMax = quantile(selected$max_Count,0.995)
+plot(selected[selected$max_Count < maxMax,]$length, 
+     selected[selected$max_Count < maxMax,]$max_Count, 
+     xlab="length of region",
+     ylab="max count of region",
+     xlim = c(0,max(selected[selected$max_Count < maxMax,]$length)), ylim = c(0,maxMax),
+     )
+Image(selected[selected$max_Count < maxMax,]$length, 
+     selected[selected$max_Count < maxMax,]$max_Count, 
+     ztransf = function(x){x[x<1] <- 1; log2(x)},
+     pixs=0.5
+     )
+#title("ROI length vs. max Count (99.5 percentile)")
+@
+\end{center}
+\caption{ROI length vs. max Count (99.5 percentile)}
+\label{ROI length vs. max Count995Sel}
+\end{figure}
+
+
+
+
+\begin{figure}[h]
+\begin{center}
+<<roiFeaturesSel, eval=TRUE, dev="png", out.width='.99\\linewidth', echo=FALSE, warning=FALSE, dpi=1000>>=
+library(IDPmisc)
+#selected=readROI(roi.fp)
+plot(selected$length, 
+     selected$max_Count, 
+     xlab="length of region",
+     ylab="max count of region",
+     )
+Image(selected$length, 
+     selected$max_Count, 
+     ztransf = function(x){x[x<1] <- 1; log2(x)}
+     )
+#title("ROI length vs. max Count")
+@
+\end{center}
+\caption{ROI length vs. max Count}
+\label{ROI length vs. max CountSel}
+\end{figure}
+
+
+
+\begin{figure}[h]
+\begin{center}
+<<singlePropLengthSel, eval=TRUE, dev="png", out.width='.49\\linewidth', echo=FALSE, warning=FALSE, dpi=500>>=
+#selected=readROI(roi.fp)
+hist(selected$length, 
+     breaks=100, 
+     col="blue", 
+     xlab="Length",
+     main=""
+     )
+@
+\end{center}
+\caption{Histogram of lengths distribution of ROIs}
+\label{histLengthSel}
+\end{figure}
+
+
+
+\begin{figure}[h]
+\begin{center}
+<<singlePropLengthLogSel, eval=TRUE, dev="png", out.width='.49\\linewidth', echo=FALSE, warning=FALSE, dpi=500>>=
+#selected=readROI(roi.fp)
+plot(log(selected[order(selected$length),]$length), 
+     type='l', 
+     col="blue", 
+     xlab="sorted index",
+     ylab="log(length)"
+     )
+@
+\end{center}
+\caption{Histogram of log(lengths) distribution of ROIs}
+\label{histLengthLogSel}
+\end{figure}
+
+
+
+\begin{figure}[h]
+\begin{center}
+<<singlePropmax_CountSel, eval=TRUE, dev="png", out.width='.49\\linewidth', echo=FALSE, warning=FALSE, dpi=100>>=
+#selected=readROI(roi.fp)
+plot(log(selected$max_Count[order(selected$max_Count)]),
+     type='l',
+     col="blue", 
+     xlab="sorted index",
+     ylab="log(max_Count)"
+)
+@
+\end{center}
+\caption{log(max_Count) sorted by max_Count of ROIs}
+\label{logMax_CountSel}
+\end{figure}
+
+
+
+
+\begin{figure}[h]
+\begin{center}
+<<singleProppeakinessSel, eval=TRUE, dev="png", out.width='.49\\linewidth', echo=FALSE, warning=FALSE, dpi=100>>=
+#selected=readROI(roi.fp)
+hist(selected$peakiness, 
+     breaks=100, 
+     col="blue", 
+     xlab="Peakiness"
+     )
+@
+\end{center}
+\caption{Histogram of peakiness distribution of ROIs (sum(abs(xi - xi+1))/N)}
+\label{histpeakinessSel}
+\end{figure}
+
+
+
+
+\begin{figure}[h]
+\begin{center}
+<<singleProppeakCountSel, eval=TRUE, dev="png", out.width='.49\\linewidth', echo=FALSE, warning=FALSE, dpi=100>>=
+#selected=readROI(roi.fp)
+plot(selected$peakCount[order(selected$peakCount)], 
+     type='l',
+     col="blue", 
+     xlab="counts peaks",
+     ylab="log(peakCount)"
+     )
+@
+\end{center}
+\caption{Histogram of peakCount distribution of ROIs ( (xi>xi+1<xi+2 | xi<xi+1>xi+2)) }
+\label{histpeakCountSel}
+\end{figure}
+
+
+
+
+
+
+\begin{figure}[h]
+\begin{center}
+<<singlePropAOCSel, eval=TRUE, dev="png", out.width='.49\\linewidth', echo=FALSE, warning=FALSE, dpi=100>>=
+#selected=readROI(roi.fp)
+plot(selected$AOC[order(selected$AOC)], 
+     type='l',
+     col="blue", 
+     xlab="index sorted by AOC",
+     ylab="AOC"
+     )
+@
+\end{center}
+\caption{Histogram of AOC distribution of ROIs}
+\label{histAOCSel}
+\end{figure}
+
+
+
+
+\begin{figure}[h]
+\begin{center}
+<<singlePropmax2endSel, eval=TRUE, dev="png", out.width='.49\\linewidth', echo=FALSE, warning=FALSE, dpi=100>>=
+#selected=readROI(roi.fp)
+plot(selected$max2end[order(selected$max2end, decreasing = TRUE)], 
+     type='l',
+     col="blue", 
+     xlab="index sorted by max2end",
+     ylab="Max to end"
+     )
+@
+\end{center}
+\caption{Distance in nt of max to end of sequence, i.e. ((length(x) - tail(which(x==max(x)),1))/length(x))}
+\label{histmax2endSel}
+\end{figure}
+
+
+
+
+
+\begin{figure}[h]
+\begin{center}
+<<singlePropwhichMaxSel, eval=TRUE, dev="png", out.width='.49\\linewidth', echo=FALSE, warning=FALSE, dpi=100>>=
+#selected=readROI(roi.fp)
+plot(log(selected$whichMax[order(selected$whichMax, decreasing = TRUE)]), 
+     type='l',
+     col="blue", 
+     xlab="index sorted by which (which.max, i.e. first max)",
+     ylab="log(Max to end)"
+     )
+@
+\end{center}
+\caption{log(whichMax) sorted by whichMax of ROIs, i.e. which.max(x)}
+\label{histwhichMaxSel}
+\end{figure}
+
+
+
+
+\begin{figure}[h]
+\begin{center}
+<<singlePropshortMaxSel, eval=TRUE, dev="png", out.width='.49\\linewidth', echo=FALSE, warning=FALSE, dpi=100>>=
+#selected=readROI(roi.fp)
+plot(log(selected$shortMax[order(selected$shortMax, decreasing = TRUE)]), 
+     type='l',
+     col="blue", 
+     xlab="index sorted by shortMax",
+     ylab="log(shortMax)"
+     )
+@
+\end{center}
+\caption{log(shortMax) distribution of sorted ROIs, i.e. if(which.max(x)>length(x)/2) then max2end(x) else (which.max(x))}
+\label{histshortMaxSel}
+\end{figure}
+
+
+
+
+\begin{figure}[h]
+\begin{center}
+<<roiFeaturesExpandedSel, eval=TRUE, dev="png", out.width='.49\\linewidth', echo=FALSE, warning=FALSE, dpi=100>>=
+#selected=readROI(roi.fp)
+vecDim=1000
+mat=lapply(selected$vec,redimVec, td=vecDim)
+sumVec = apply((matrix(unlist(mat), nr=vecDim)),1,sum)/length(selected$vec)
+plot(sumVec,
+     type = 'l',
+     col='blue',
+     xlab="rel. position",
+     ylab="average Intensity"
+     )
+@
+\end{center}
+\caption{ROIs expanded or reduced to length 1000 and counts summed up}
+\label{roiExp1000Sel}
+\end{figure}
+
+
+
+\begin{figure}[h]
+\begin{center}
+<<roiFeatures3PrimeSel, eval=TRUE, dev="png", out.width='.49\\linewidth', echo=FALSE, warning=FALSE, dpi=100>>=
+#selected=readROI(roi.fp)
+vecDim=1000
+mat=lapply(selected$vec,lastNVec, td=vecDim)
+sumVec = apply((matrix(unlist(mat), nr=vecDim)),1,sum)/length(selected$vec)
+plot(sumVec,
+     type = 'l',
+     col='blue',
+     xlab="rel. position to end",
+     ylab="average Intensity"
+     )
+@
+\end{center}
+\caption{ROIs aligned such that the 3' ends match at right hand side}
+\label{roi3P1000Sel}
+\end{figure}
+
+
+
+\begin{figure}[h]
+\begin{center}
+<<roiFeatures5PrimeSel, eval=TRUE, dev="png", out.width='.49\\linewidth', echo=FALSE, warning=FALSE, dpi=100>>=
+vecDim=1000
+mat=lapply(selected$vec,firstNVec, td=vecDim)
+sumVec = apply((matrix(unlist(mat), nr=vecDim)),1,sum)/length(selected$vec)
+plot(sumVec,
+     type = 'l',
+     col='blue',
+     xlab="position starting at 5'",
+     ylab="average Intensity"
+     )
+@
+\end{center}
+\caption{ROIs aligned such that the 5' ends match at right hand side}
+\label{roi5P1000Sel}
+\end{figure}
+
+
+
+
+
+\begin{figure}[h]
+\begin{center}
+<<roiFeaturesExpandedBinMaxSel, eval=TRUE, dev="png", out.width='.49\\linewidth', echo=FALSE, warning=FALSE, dpi=100>>=
+#selected=readROI(roi.fp)
+vecDim=1000
+mat=lapply(selected$binMax,redimVec, td=vecDim)
+sumVec = apply((matrix(unlist(mat), nr=vecDim)),1,sum)/length(selected$binMax)
+plot(sumVec,
+     type = 'l',
+     col='blue',
+     xlab="rel. position",
+     ylab="average Intensity"
+     )
+@
+\end{center}
+\caption{BinMaxROIs expanded or reduced to length 1000 and counts summed up}
+\label{roiExp1000BMSel}
+\end{figure}
+
+
+
+\begin{figure}[h]
+\begin{center}
+<<roiFeatures3PrimeBinMaxSel, eval=TRUE, dev="png", out.width='.49\\linewidth', echo=FALSE, warning=FALSE, dpi=100>>=
+#selected=readROI(roi.fp)
+vecDim=1000
+mat=lapply(selected$binMax,lastNVec, td=vecDim)
+sumVec = apply((matrix(unlist(mat), nr=vecDim)),1,sum)/length(selected$binMax)
+plot(sumVec,
+     type = 'l',
+     col='blue',
+     xlab="rel. position to end",
+     ylab="average Intensity"
+     )
+@
+\end{center}
+\caption{BinMax ROIs aligned such that the 3' ends match at right hand side}
+\label{roi3P1000BMSel}
+\end{figure}
+
+
+
+\begin{figure}[h]
+\begin{center}
+<<roiFeatures5PrimeBinMaxSel, eval=TRUE, dev="png", out.width='.49\\linewidth', echo=FALSE, warning=FALSE, dpi=100>>=
+vecDim=1000
+mat=lapply(selected$binMax,firstNVec, td=vecDim)
+sumVec = apply((matrix(unlist(mat), nr=vecDim)),1,sum)/length(selected$binMax)
+plot(sumVec,
+     type = 'l',
+     col='blue',
+     xlab="position starting at 5'",
+     ylab="average Intensity"
+     )
+@
+\end{center}
+\caption{BinMaxROIs aligned such that the 5' ends match at right hand side}
+\label{roi5P1000BMSel}
+\end{figure}
+
+

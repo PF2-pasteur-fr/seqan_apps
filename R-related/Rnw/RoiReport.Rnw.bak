@@ -1,0 +1,107 @@
+
+% Bioinformatics data processing report
+
+
+
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{longtable}
+\usepackage{numprint}
+\usepackage{rotating}
+\usepackage{tabularx}
+\geometry{verbose,letterpaper,tmargin=2cm,bmargin=2cm,lmargin=2cm,rmargin=2cm}
+
+% Parameters of the report ----
+% -----------------------------
+% 
+\newcommand{\projet}{projetTest }                                         % laisser un blanc a la fin
+\Sexpr{opts_chunk$set(echo=FALSE, cache=FALSE, eps = FALSE, dev="png")}
+
+
+<<setup, echo=FALSE, cache=FALSE>>=
+## initialize variables
+inFile <- Sys.getenv("roiFile") 
+if (inFile == ""){
+   cat("ERROR++++++++++++++++++++++\nroiFile not set\n use Env variable roiFile\n", file=stderr())
+   quit()
+}
+#myDir <- Sys.getenv("myDir") 
+#if (myDir == ""){
+#   cat("ERROR++++++++++++++++++++++\nmyDir not set\n use Env variable myDir\n", file=stderr())
+#   quit()
+#}
+figPath <- Sys.getenv("figPath") 
+if (figPath == ""){
+   cat("ERROR++++++++++++++++++++++\nfigPath not set\n use Env variable figPath\n", file=stderr())
+   quit()
+}
+cachePath <- Sys.getenv("cachePath") 
+if (cachePath == ""){
+   cat("ERROR++++++++++++++++++++++\ncachePath not set\n use Env variable cachePath\n", file=stderr())
+   quit()
+}
+
+RfuncDir <- "/pasteur/projets/specific/PF2_ngs/protected/scripts/Rnw/rfunctions/"
+source( paste(RfuncDir, "loadFunctions.R", sep="/") )
+loadFunctions(RfuncDir)
+#print(myDir)
+#setwd(myDir)
+#roi=readROI(inFile)
+#names(roi)
+roi.fp=inFile
+write(paste("roi.fp:", roi.fp), stderr())
+
+
+## KNITR Stuff
+opts_chunk$set(fig.path=figPath, cache.path=cachePath, fig.align='center', fig.width=5, fig.height=5, fig.show='hold', cache=FALSE, par=TRUE)
+#opts_chunk$set(fig.path='figures/figs-', cache.path='cache/figs-',fig.align='center', fig.width=5, fig.height=5, fig.show='hold', cache=FALSE, par=TRUE)
+knit_hooks$set(par=function(before, options, envir){
+#print(figPath)
+cat ("cachePath: " ,cachePath, "\n")
+if (before && options$fig.show!='none') par(mar=c(4,4,.1,.1),cex.lab=.95,cex.axis=.9,mgp=c(2,.7,0),tcl=-.3)
+}, crop=hook_optipng)
+
+
+@
+
+\newcommand{\titreRapport}{ROI report for \Sexpr{tempStr=gsub("_", "\\\\_",inFile);gsub("/pasteur/projets/specific/PF2\\\\_ngs/volatile/","",tempStr)}}
+
+%---------------------------
+
+\title{\titreRapport}
+\author{Bernd Jagla \\ PF2 Plate-forme Transcriptome et Epig\'enome}  %
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+This report describes all information available for a given lane
+
+
+<<child-ROI-summary, child='/pasteur/projets/specific/PF2_ngs/protected/scripts/Rnw/child-ROI-summary.Rnw', eval=TRUE>>=
+@
+
+
+
+\clearpage
+<<sessionInfo, echo=FALSE, cache=FALSE>>=
+sessionInfo()
+@
+
+\bibliographystyle{unsrt}
+\bibliography{NGS}
+\end{document}
+
+

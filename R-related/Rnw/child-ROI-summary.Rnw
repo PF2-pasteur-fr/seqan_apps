@@ -1,0 +1,197 @@
+\section{ROI summary}
+
+
+
+<<roi_Summary , comment=NA, eval=TRUE, echo=FALSE, cache=FALSE, warning=FALSE>>=
+
+
+#cat(gsub("/pasteur/projets/specific/PF2_ngs/volatile/","",roi.fp))
+
+roiDF=readROI(roi.fp)
+write(paste("roi.fp:",roi.fp), stderr())
+
+#######################
+### CHECK that the names are exchanged correctly
+#######################
+cat("\nColumn names:\n")
+cat(names(roiDF), sep="\n")
+
+max2end = function(x){
+   return((length(x) - tail(which(x==max(x)),1))/length(x))
+}
+roiDF$max2end=as.numeric(lapply(roiDF$counts,max2end))
+
+whichMax = function(x){
+   return(which.max(x))
+}
+roiDF$whichMax=as.numeric(lapply(roiDF$counts,whichMax))
+
+shortMax = function(x){
+   if(which.max(x)>length(x)/2){
+      return (max2end(x))
+   }else{
+      return (which.max(x))
+   }
+}
+roiDF$shortMax=as.numeric(lapply(roiDF$counts,shortMax))
+
+binMax <- function (vec){return (vec==max(as.integer(vec)))}
+
+roiDF$binMax=lapply(roiDF$counts, binMax)
+
+
+
+for ( idx in 1:length(roiDF) )
+{
+   cat("\n", names(roiDF)[[idx]],"\n")
+   class(roiDF[[idx]])
+   if ( is.numeric(roiDF[[idx]])) 
+   {
+      print(summary(roiDF[[idx]]), quote=FALSE)
+   }
+}
+@
+\clearpage
+
+\section{iPairs plot of all properties}
+
+
+\begin{figure}[h]
+\begin{center}
+<<roiCorrPlotsiPairs, eval=TRUE, dev="png", out.width='.99\\linewidth', echo=FALSE, warning=FALSE, dpi=1000, cache=FALSE>>=
+opts_chunk[['set']](fig.width = 7)
+opts_chunk[['set']](fig.height = 7)
+suppressMessages(library(IDPmisc))
+
+nums <- sapply(roiDF, is.numeric)
+dataMat=roiDF[, nums]
+if (dim(dataMat)[[2]] > 22){
+   cat("\nRemoving some columns\n\n")
+   dataMat=dataMat[,c(1:22)]
+}
+ipairs(dataMat,pixs=0.1, ztransf = function(x){x[x<1] <- 1; log2(x)})
+@
+\end{center}
+\caption{ROI corellation plots (iPairs)}
+\label{ROIcorrPlotsiPairs}
+\end{figure}
+
+
+\clearpage
+
+\section{Single property distributions}
+
+
+%\begin{figure}[h]
+%\begin{center}
+<<singlePropLengthLogSel, eval=TRUE, dev="png", out.width='.49\\linewidth', echo=FALSE, warning=FALSE, dpi=500>>=
+library(IDPmisc)
+#selected=readROI(roi.fp)
+
+
+for ( idx in 1:length(roiDF) )
+{
+   if ( is.numeric(roiDF[[idx]])) 
+   {
+      data=roiDF[[idx]]
+      print
+      (plot(
+         data[order(data)], 
+         type='l',
+         col="blue", 
+         xlab="sorted values",
+         ylab=names(roiDF)[[idx]]
+      ))
+      print
+      (plot(
+         data[order(data)], 
+         type='l',
+         log="y",
+         col="blue", 
+         xlab="sorted values",
+         ylab=paste("log(",names(roiDF)[[idx]],")")
+      ))
+   }
+}
+
+@
+%\end{center}
+%\caption{Sorted ROI values}
+%\label{histLengthLogSel}
+%\end{figure}
+
+\clearpage
+
+\section{Property Pairs}
+
+
+<<dualPropLengthLogSel, fig.show='hold', eval=TRUE, dev="png", out.width='.49\\linewidth', echo=FALSE, warning=FALSE, dpi=500>>=
+library(IDPmisc)
+
+nDF=names(roiDF)
+selectedCols=c("length","aoc","xreaXX", "max2end", "r3linear", "gc_content", "changeSumN", "whichMax")
+
+selectedColsN=c()
+for (idx in 1:length(selectedCols))
+{
+   selectedColsN=append(selectedColsN,grep(selectedCols[[idx]], nDF))
+}
+
+roiDFSelected=roiDF[,selectedColsN]
+
+for ( idx in 1:length(roiDFSelected) )
+{
+   if ( is.numeric(roiDFSelected[[idx]])) 
+   {
+      for ( idx2 in idx:length(roiDFSelected) )
+      {
+         if ( is.numeric(roiDFSelected[[idx2]])) 
+         {
+            data=roiDFSelected[[idx]]
+            data2=roiDFSelected[[idx2]]
+#            print(paste("NEWidx:",idx,"  idx2:",idx2,"  max(data):", max(data),"  max(data2):", max(data2), sep=" "))
+            plot(data, 
+               data2, 
+               xlab=names(roiDFSelected)[[idx]],
+               ylab=names(roiDFSelected)[[idx2]],
+            )
+#	    print("after Plot1")
+            Image(data, 
+               data2, 
+               ztransf = function(x){x[x<1] <- 1; log2(x)}
+            )
+#	    print(paste("idx:",idx,"  idx2:",idx2,"  max(data):", max(data),"  max(data2):", max(data2), sep=" "))
+            if( (max(data) > 0) && (max(data2) > 0))
+            {
+	       ldata  = log(data [(data > 0) & (data2 > 0)])
+	       ldata2 = log(data2[(data > 0) & (data2 > 0)])
+               plot(ldata, 
+                  ldata2, 
+                  xlab=paste("log(",names(roiDFSelected)[[idx]],")"),
+                  ylab=paste("log(",names(roiDFSelected)[[idx2]],")"),
+                  type="p"
+               )
+#	    print("after Plot2")
+#	    print(paste("length(ldata): ", length(ldata), " length(ldata2): ", length(ldata2)))
+#	    print(paste("summary(ldata): ", summary(ldata), " summary(ldata2): ", summary(ldata2)))
+               Image(ldata, 
+                  ldata2,
+                  ztransf = function(x){x[x<1] <- 1; x=log2(x); ;return(x)}
+               )
+#	    print("after Image2")
+            }
+         }
+       }
+    }
+}
+@
+%\end{center}
+%\caption{Sorted ROI values}
+%\label{histLengthLogSel}
+%\end{figure}
+
+
+
+
+
+

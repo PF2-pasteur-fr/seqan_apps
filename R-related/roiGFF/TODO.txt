@@ -1,0 +1,9 @@
+ * convert to new ROI file format
+
+ * tests
+
+ * verify that arguments can be called tag and parent attribute
+
+ * move roiGFFApp::readROIFile to roi.h
+
+

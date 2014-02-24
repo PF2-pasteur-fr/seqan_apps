@@ -1,0 +1,40 @@
+>>Parameters
+#Name	value
+Version	0.6
+adaptors file:	adapters.txt
+mode:	single-end
+input left:	reads_1.fq
+output left:	reads_1_out_se_l90.fq
+rejected left:	reads_1_out_se_l90_rej.fq
+minLen:	90
+maxLen:	0
+Quality threshold 3 prime:	0
+Quality threshold 5 prime:	0
+>>END_MODULE
+>>Statistics
+#Measure	value
+time	0.00221472
+good reads	5
+bad reads	1
+trimmed 3 prime	0
+trimmed 5 prime	0
+removed due to length	1
+removed due to max length	0
+>>END_MODULE
+>>sequence length distribution
+#seq length	count
+93	1
+100	4
+>>END_MODULE
+>>adapter sequences
+#adapter ID	count
+V1	1
+V3	0
+V1Rev	0
+V3Rev	0
+TruSeq_Adapter_IndexN	1
+TruSeq_Adapter_IndexNRevComp	0
+>>END_MODULE
+>>leader sequences
+#adapter ID	count
+>>END_MODULE

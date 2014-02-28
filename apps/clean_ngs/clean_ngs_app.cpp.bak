@@ -798,9 +798,11 @@ int CleanNgsApp::performTrimming(double programStartTime)
            && length(record.seq1) > (unsigned) options.maxLen)
         {
             stats.maxLenConstrain++;
+            removeRead(record);
             continue;
             if (options.pairedEnd() && length(record.seq2) > (unsigned) options.maxLen)
             {
+                removeRead(record);
                 stats.maxLenConstrain++;
                 continue;
             }

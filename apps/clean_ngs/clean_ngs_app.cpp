@@ -882,7 +882,7 @@ void CleanNgsApp::printFooter(std::ostream & out, double programStartTime)
     out << "bad reads\t" << stats.badReads << "\n";
     out << "trimmed 3 prime\t" << stats.count3PrimeTrimmed << "\n";
     out << "trimmed 5 prime\t" << stats.count5PrimeTrimmed << "\n";
-    out << "removed due to length\t" << stats.lengthConstrain << "\n";
+    out << "removed due to min length\t" << stats.lengthConstrain << "\n";
     out << "removed due to max length\t" << stats.maxLenConstrain << "\n";
     out << ">>END_MODULE" << "\n";
 

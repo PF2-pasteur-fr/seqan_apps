@@ -1,9 +1,9 @@
 # ===========================================================================
 #                  SeqAn - The Library for Sequence Analysis
 # ===========================================================================
-# File: /sandbox/seqan_ngs_apps/CMakeLists.txt
+# File: /sandbox/jagla/CMakeLists.txt
 #
-# CMakeLists.txt file for sandbox/seqan_ngs_apps.
+# CMakeLists.txt file for sandbox/jagla.
 # ===========================================================================
 
 cmake_minimum_required (VERSION 2.8.2)

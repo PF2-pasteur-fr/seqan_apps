@@ -1,14 +1,14 @@
 # ===========================================================================
 #                  SeqAn - The Library for Sequence Analysis
 # ===========================================================================
-# File: /sandbox/jagla/demos/CMakeLists.txt
+# File: /sandbox/seqan_ngs_apps/demos/CMakeLists.txt
 #
-# CMakeLists.txt file for the sandbox/jagla/demos demos.
+# CMakeLists.txt file for the sandbox/seqan_ngs_apps/demos demos.
 # ===========================================================================
 
 cmake_minimum_required (VERSION 2.8.2)
-project (seqan_sandbox_jagla_demos)
-message (STATUS "Configuring sandbox/jagla/demos")
+project (seqan_sandbox_seqan_ngs_apps_demos)
+message (STATUS "Configuring sandbox/seqan_ngs_apps/demos")
 
 # Recursively register all demos in core and prefix their target/binary names
 # with "demo_".  The demos will be built in DEVELOP mode, copied in

@@ -1,14 +1,14 @@
 # ===========================================================================
 #                  SeqAn - The Library for Sequence Analysis
 # ===========================================================================
-# File: /sandbox/jagla/apps/roiPCA/CMakeLists.txt
+# File: /sandbox/seqan_ngs_apps/apps/roiPCA/CMakeLists.txt
 #
 # CMakeLists.txt file for roiPCA.
 # ===========================================================================
 
 cmake_minimum_required (VERSION 2.8.2)
-project (seqan_sandbox_jagla_apps_roiPCA)
-message (STATUS "Configuring sandbox/jagla/apps/roiPCA")
+project (seqan_sandbox_seqan_ngs_apps_apps_roiPCA)
+message (STATUS "Configuring sandbox/seqan_ngs_apps/apps/roiPCA")
 
 # ----------------------------------------------------------------------------
 # Dependencies

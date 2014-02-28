@@ -1,14 +1,14 @@
 # ===========================================================================
 #                  NGS: Regions of Interest Analysis
 # ===========================================================================
-# File: /sandbox/jagla/apps/ngs_roi/CMakeLists.txt
+# File: /sandbox/seqan_ngs_apps/apps/ngs_roi/CMakeLists.txt
 #
 # CMakeLists.txt file for ngs_roi.
 # ===========================================================================
 
 cmake_minimum_required (VERSION 2.8.2)
-project (seqan_sandbox_jagla_apps_ngs_roi)
-message (STATUS "Configuring sandbox/jagla/apps/ngs_roi")
+project (seqan_sandbox_seqan_ngs_apps_apps_ngs_roi)
+message (STATUS "Configuring sandbox/seqan_ngs_apps/apps/ngs_roi")
 
 # ----------------------------------------------------------------------------
 # Dependencies

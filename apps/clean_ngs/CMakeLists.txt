@@ -1,14 +1,14 @@
 # ===========================================================================
 #                  SeqAn - The Library for Sequence Analysis
 # ===========================================================================
-# File: /sandbox/jagla/apps/clean_ngs/CMakeLists.txt
+# File: /sandbox/seqan_ngs_apps/apps/clean_ngs/CMakeLists.txt
 #
 # CMakeLists.txt file for clean_ngs.
 # ===========================================================================
 
 cmake_minimum_required (VERSION 2.8.2)
-project (seqan_sandbox_jagla_apps_clean_ngs)
-message (STATUS "Configuring sandbox/jagla/apps/clean_ngs")
+project (seqan_sandbox_seqan_ngs_apps_apps_clean_ngs)
+message (STATUS "Configuring sandbox/seqan_ngs_apps/apps/clean_ngs")
 
 # ----------------------------------------------------------------------------
 # Dependencies

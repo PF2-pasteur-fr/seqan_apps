@@ -1,14 +1,14 @@
 # ===========================================================================
 #                  SeqAn - The Library for Sequence Analysis
 # ===========================================================================
-# File: /sandbox/jagla/tests/roi_io/CMakeLists.txt
+# File: /sandbox/seqan_ngs_apps/tests/roi_io/CMakeLists.txt
 #
 # CMakeLists.txt file for the roi_io module tests.
 # ===========================================================================
 
 cmake_minimum_required (VERSION 2.8.2)
-project (seqan_sandbox_jagla_tests_roi_io)
-message (STATUS "Configuring sandbox/jagla/tests/roi_io")
+project (seqan_sandbox_seqan_ngs_apps_tests_roi_io)
+message (STATUS "Configuring sandbox/seqan_ngs_apps/tests/roi_io")
 
 # ----------------------------------------------------------------------------
 # Dependencies

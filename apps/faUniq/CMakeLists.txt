@@ -1,14 +1,14 @@
 # ===========================================================================
 #                  SeqAn - The Library for Sequence Analysis
 # ===========================================================================
-# File: /sandbox/jagla/apps/faUniq/CMakeLists.txt
+# File: /sandbox/seqan_ngs_apps/apps/faUniq/CMakeLists.txt
 #
 # CMakeLists.txt file for faUniq.
 # ===========================================================================
 
 cmake_minimum_required (VERSION 2.8.2)
-project (seqan_sandbox_jagla_apps_faUniq)
-message (STATUS "Configuring sandbox/jagla/apps/faUniq")
+project (seqan_sandbox_seqan_ngs_apps_apps_faUniq)
+message (STATUS "Configuring sandbox/seqan_ngs_apps/apps/faUniq")
 
 # ----------------------------------------------------------------------------
 # Dependencies

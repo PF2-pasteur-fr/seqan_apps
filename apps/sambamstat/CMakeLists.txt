@@ -1,14 +1,14 @@
 # ===========================================================================
 #                  SeqAn - The Library for Sequence Analysis
 # ===========================================================================
-# File: /sandbox/jagla/apps/sambamstat/CMakeLists.txt
+# File: /sandbox/seqan_ngs_apps/apps/sambamstat/CMakeLists.txt
 #
 # CMakeLists.txt file for sambamstat.
 # ===========================================================================
 
 cmake_minimum_required (VERSION 2.8.2)
-project (seqan_sandbox_jagla_apps_sambamstat)
-message (STATUS "Configuring sandbox/jagla/apps/sambamstat")
+project (seqan_sandbox_seqan_ngs_apps_apps_sambamstat)
+message (STATUS "Configuring sandbox/seqan_ngs_apps/apps/sambamstat")
 
 # ----------------------------------------------------------------------------
 # Dependencies

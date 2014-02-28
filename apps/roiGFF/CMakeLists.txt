@@ -1,14 +1,14 @@
 # ===========================================================================
 #                  SeqAn - The Library for Sequence Analysis
 # ===========================================================================
-# File: /sandbox/jagla/apps/roiGFF/CMakeLists.txt
+# File: /sandbox/seqan_ngs_apps/apps/roiGFF/CMakeLists.txt
 #
 # CMakeLists.txt file for roiGFF.
 # ===========================================================================
 
 cmake_minimum_required (VERSION 2.8.2)
-project (seqan_sandbox_jagla_apps_roiGFF)
-message (STATUS "Configuring sandbox/jagla/apps/roiGFF")
+project (seqan_sandbox_seqan_ngs_apps_apps_roiGFF)
+message (STATUS "Configuring sandbox/seqan_ngs_apps/apps/roiGFF")
 
 # ----------------------------------------------------------------------------
 # Dependencies

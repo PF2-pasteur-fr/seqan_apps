@@ -35,6 +35,7 @@
 // Version 0.7 = replace BamSamheader instead of appending to it
 // Version 0.15 = new roi format
 // Version 0.16 remove position sorted options
+// Version 0.18 based on problem in underlying libraries (problem with reading comments from sam file)
 
 #ifndef SANDBOX_JAGLA_APPS_SAMBAMSTAT_SAMBAMSTAT_H_
 #define SANDBOX_JAGLA_APPS_SAMBAMSTAT_SAMBAMSTAT_H_
@@ -64,7 +65,7 @@
 
 //#include "dataanalysis.h"
 
-#define VERSION "0.17"
+#define VERSION "0.18"
 #define PROGNAME_ID "sambamstats-ID"
 //#define PROGNAME_POS "sambamstats-POS"
 
